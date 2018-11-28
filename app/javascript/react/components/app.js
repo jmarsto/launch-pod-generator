@@ -1,7 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { Router, browserHistory, Route } from 'react-router'
+import CohortsIndexContainer from '../containers/CohortsIndexContainer';
 
 export const App = (props) => {
-  return (<h1>Make It So React</h1>)
+  return (
+    <Router history={browserHistory}>
+      <Route path='/cohorts' component={CohortsIndexContainer} />
+    </Router>
+  )
 }
 
 export default App
