@@ -1,7 +1,17 @@
-import React from 'react'
+import React from 'react';
+import { Provider } from 'react-redux'
+import { Router, browserHistory, Route } from 'react-router'
+
+import CohortsIndexContainer from '../containers/CohortsIndexContainer';
 
 export const App = (props) => {
-  return (<h1>Make It So React</h1>)
+  return (
+    <Provider store={props.store}>
+      <Router history={browserHistory}>
+        <Route path='/cohorts' component={CohortsIndexContainer} />
+      </Router>
+    </Provider>
+  )
 }
 
 export default App
