@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { getCohorts } from '../modules/cohorts'
+
 class CohortListContainer extends Component {
   constructor(props) {
     super(props)
   }
 
+  componentDidMount() {
+    this.props.getCohorts()
+  }
 
   render() {
     const cohortTiles = this.props.cohorts.map(cohort => {
@@ -32,7 +37,13 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCohorts: () => dispatch(getCohorts())
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CohortListContainer)
