@@ -1,6 +1,10 @@
 class Api::V1::CohortsController < ApplicationController
   protect_from_forgery unless: -> { request.format.json? }
 
+  def index
+    render json: Cohort.all
+  end
+
   def create
     new_cohort = Cohort.new(cohort_params)
     if new_cohort.save
