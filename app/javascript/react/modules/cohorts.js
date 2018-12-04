@@ -7,9 +7,6 @@ const cohorts = (state = initialState, action) => {
   switch(action.type) {
     case HANDLE_INPUT_CHANGE:
       return {...state, [action.field]: action.newValue }
-    case ADD_COHORT:
-      const newCohortList = state.cohorts.concat(action.cohort)
-      return {...state, cohorts: newCohortList }
     case CLEAR_FORM:
       return {...state, newCohort: '' }
     case GET_COHORTS_REQUEST:
@@ -20,6 +17,16 @@ const cohorts = (state = initialState, action) => {
         isFetching: false
       }
     case GET_COHORTS_REQUEST_FAILURE:
+      return {...state, isFetching: false }
+    case POST_COHORT_REQUEST:
+      return {...state, isFetching: true }
+    case POST_COHORT_REQUEST_SUCCESS:
+      const newCohorts = state.cohorts.concat(action.cohort)
+      return {...state,
+        cohorts: newCohorts,
+        isFetching: false
+      }
+    case POST_COHORT_REQUEST_FAILURE:
       return {...state, isFetching: false }
     default:
       return state;
@@ -35,15 +42,6 @@ const handleInputChange = event => {
     type: HANDLE_INPUT_CHANGE,
     field,
     newValue
-  }
-}
-
-const ADD_COHORT = 'ADD_COHORT'
-
-const addCohort = (cohort) => {
-  return {
-    type: ADD_COHORT,
-    cohort
   }
 }
 
@@ -80,12 +78,39 @@ const getCohortsRequestFailure = () => {
   }
 }
 
+const POST_COHORT_REQUEST = 'POST_COHORT_REQUEST'
+
+const postCohortRequest = () => {
+  return {
+    type: POST_COHORT_REQUEST
+  }
+}
+
+
+const POST_COHORT_REQUEST_SUCCESS = 'POST_COHORT_REQUEST_SUCCESS'
+
+
+const postCohortRequestSuccess = cohort => {
+  return {
+    type: POST_COHORT_REQUEST_SUCCESS,
+    cohort
+  }
+}
+
+const POST_COHORT_REQUEST_FAILURE = 'POST_COHORT_REQUEST_FAILURE'
+
+const postCohortRequestFailure = () => {
+  return {
+    type: POST_COHORT_REQUEST_FAILURE
+  }
+}
+
 const getCohorts = () => {
   return dispatch => {
     dispatch(getCohortsRequest())
 
     return fetch(`/api/v1/cohorts.json`)
-    .then(respnse => {
+    .then(response => {
       if(response.ok) {
         return response.json()
       } else {
@@ -102,9 +127,38 @@ const getCohorts = () => {
   }
 }
 
+const postCohort = cohort => {
+  return dispatch => {
+    dispatch(postCohortRequest())
+    return fetch(`/api/v1/cohorts.json`,
+      {
+        method: 'POST',
+        body: JSON.stringify(cohort),
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      }
+    )
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        dispatch(postCohortRequestFailure())
+        console.log("Error in fetch");
+        return { error: 'Something went wrong.' }
+      }
+    })
+    .then(cohort => {
+      if(!cohort.error) {
+        dispatch(postCohortRequestSuccess(cohort))
+      }
+    })
+  }
+}
+
 export {
   cohorts,
   getCohorts,
+  postCohort,
   addCohort,
   clearForm,
   handleInputChange
