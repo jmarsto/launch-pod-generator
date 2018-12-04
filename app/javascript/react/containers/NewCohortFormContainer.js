@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { handleInputChange, addCohort, clearForm } from '../modules/cohorts';
+import { handleInputChange, postCohort, clearForm } from '../modules/cohorts';
 
 import InputField from '../components/InputField';
 
@@ -9,25 +9,14 @@ class NewCohortFormContainer extends Component {
     super(props);
 
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.calculateNewId = this.calculateNewId.bind(this);
-  }
-
-  calculateNewId() {
-    if (this.props.cohorts.cohorts.length === 0) {
-      return 1;
-    } else {
-      const cohortIds = this.props.cohorts.cohorts.map(cohort => cohort.id);
-      return Math.max(...cohortIds) + 1;
-    }
   }
 
   handleFormSubmit(event) {
     event.preventDefault();
-    const newCohort = {
-      id: this.calculateNewId(),
+    const cohortData = {
       name: this.props.newCohort
-    };
-    this.props.addCohort(newCohort);
+    }
+    this.props.postCohort(cohortData);
     this.props.clearForm();
   }
 
@@ -62,7 +51,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleInputChange: (event) => dispatch(handleInputChange(event)),
-    addCohort: (newCohort) => dispatch(addCohort(newCohort)),
+    postCohort: (newCohort) => dispatch(postCohort(newCohort)),
     clearForm: () => dispatch(clearForm())
   }
 }
