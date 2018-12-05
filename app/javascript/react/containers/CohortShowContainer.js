@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
 import { getCohortShowData } from '../modules/cohorts';
+import StudentListContainer from './StudentListContainer'
 
 class CohortShowContainer extends Component {
   constructor(props) {
@@ -17,7 +18,10 @@ class CohortShowContainer extends Component {
     return (
       <div className="row">
         <h2>{this.props.cohortShowData.cohort.name}</h2>
-
+          <StudentListContainer
+            className="small-6 columns"
+            students={this.props.cohortShowData.students}
+          />
         <Link to='/cohorts'>Back to All Cohorts</Link>
       </div>
     )
