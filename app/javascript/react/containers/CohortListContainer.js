@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { getCohorts } from '../modules/cohorts'
+import CohortTile from '../components/CohortTile'
 
 class CohortListContainer extends Component {
   constructor(props) {
@@ -15,16 +16,20 @@ class CohortListContainer extends Component {
   render() {
     const cohortTiles = this.props.cohorts.map(cohort => {
       return (
-        <div key={cohort.id}>
-        {cohort.name}
-        </div>
+        <CohortTile
+          key={cohort.id}
+          id={cohort.id}
+          name={cohort.name}
+        />
       )
     })
 
     return (
       <div>
-        <h3>Cohort List Container</h3>
-        {cohortTiles}
+        <h2>Select a Cohort</h2>
+        <ul className="cohort-list">
+          {cohortTiles}
+        </ul>
       </div>
     )
   }

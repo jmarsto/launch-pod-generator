@@ -12,10 +12,10 @@ class CohortsIndexContainer extends Component {
   render() {
     return (
       <div className="row">
-        <div className="small-6 columns">
+        <div className="small-8 columns">
           <CohortListContainer />
         </div>
-        <div className="small-6 columns">
+        <div className="small-4 columns">
           <NewCohortFormContainer />
         </div>
       </div>

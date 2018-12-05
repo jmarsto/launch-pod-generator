@@ -23,7 +23,7 @@ class NewCohortFormContainer extends Component {
   render() {
     return (
       <div>
-        <h1>form container</h1>
+        <h2>Add New Cohort</h2>
         <form onSubmit={this.handleFormSubmit}>
           <InputField
             key='newCohort'
