@@ -13,7 +13,7 @@ const cohorts = (state = initialState, action) => {
     case HANDLE_INPUT_CHANGE:
       return {...state, [action.field]: action.newValue }
     case CLEAR_FORM:
-      return {...state, newCohort: '' }
+      return {...state, newCohort: '', newStudent: '' }
     case REQUEST:
       return {...state, isFetching: true }
     case REQUEST_FAILURE:
@@ -32,6 +32,13 @@ const cohorts = (state = initialState, action) => {
     case GET_COHORT_SHOW_DATA_SUCCESS:
       return {...state,
         cohortShowData: action.cohortShowData,
+        isFetching: false
+      }
+    case POST_STUDENT_REQUEST_SUCCESS:
+      const newStudents = state.cohortShowData.students.concat(action.student)
+      const newCohortShowData = {...state.cohortShowData, students: newStudents}
+      return {...state,
+        cohortShowData: newCohortShowData,
         isFetching: false
       }
     default:
@@ -99,6 +106,15 @@ const getCohortShowDataSuccess = cohortShowData => {
   return {
     type: GET_COHORT_SHOW_DATA_SUCCESS,
     cohortShowData
+  }
+}
+
+const POST_STUDENT_REQUEST_SUCCESS = 'POST_STUDENT_REQUEST_SUCCESS'
+
+const postStudentRequestSuccess = student => {
+  return {
+    type: POST_STUDENT_REQUEST_SUCCESS,
+    student
   }
 }
 
@@ -173,11 +189,40 @@ const getCohortShowData = id => {
   }
 }
 
+const postStudent = studentData => {
+  return dispatch => {
+    dispatch(request())
+    return fetch(`/api/v1/cohorts/${studentData.cohortId}/students.json`,
+      {
+        method: 'POST',
+        body: JSON.stringify(studentData),
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      }
+    )
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        dispatch(requestFailure())
+        console.log("Error in fetch");
+        return { error: 'Something went wrong.' }
+      }
+    })
+    .then(student => {
+      if(!student.error) {
+        dispatch(postStudentRequestSuccess(student))
+      }
+    })
+  }
+}
+
 export {
   cohorts,
   cohortShowData,
   getCohorts,
   postCohort,
+  postStudent,
   getCohortShowData,
   clearForm,
   handleInputChange
