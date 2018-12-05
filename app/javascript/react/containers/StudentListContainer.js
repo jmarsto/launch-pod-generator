@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 class StudentListContainer extends Component {
   constructor(props) {
@@ -20,7 +19,7 @@ class StudentListContainer extends Component {
     }
 
     return (
-      <div>
+      <div className="small-8 columns">
         <h3>Students</h3>
         <ul>
           {studentTiles}
@@ -31,19 +30,5 @@ class StudentListContainer extends Component {
 
 }
 
-const mapStateToProps = (state) => {
-  return {
 
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StudentListContainer)
+export default StudentListContainer
