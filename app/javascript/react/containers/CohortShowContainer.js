@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { getCohortShowData } from '../modules/cohorts';
 
-
 class CohortShowContainer extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +16,8 @@ class CohortShowContainer extends Component {
   render() {
     return (
       <div className="row">
-        <h2>{this.props.cohortShowData.name}</h2>
+        <h2>{this.props.cohortShowData.cohort.name}</h2>
+
         <Link to='/cohorts'>Back to All Cohorts</Link>
       </div>
     )

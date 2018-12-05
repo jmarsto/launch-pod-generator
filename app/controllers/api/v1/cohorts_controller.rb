@@ -6,7 +6,12 @@ class Api::V1::CohortsController < ApplicationController
   end
 
   def show
-    render json: Cohort.find(params[:id])
+    cohort = Cohort.find(params[:id])
+    cohort_show_data = {
+      cohort: cohort,
+      students: cohort.students
+    }
+    render json: cohort_show_data
   end
 
   def create
