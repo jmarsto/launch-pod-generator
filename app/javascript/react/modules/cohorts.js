@@ -1,7 +1,11 @@
 const initialState = {
   cohorts: [],
   isFetching: false,
-  cohortShowData: {}
+  cohortShowData: {
+    cohort: {
+      name: ""
+    }
+  }
 };
 
 const cohorts = (state = initialState, action) => {
