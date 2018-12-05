@@ -5,6 +5,10 @@ class Api::V1::CohortsController < ApplicationController
     render json: Cohort.all
   end
 
+  def show
+    render json: Cohort.find(params[:id])
+  end
+
   def create
     new_cohort = Cohort.new(cohort_params)
     if new_cohort.save
