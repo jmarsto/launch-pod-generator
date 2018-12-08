@@ -21,6 +21,7 @@ class CohortShowContainer extends Component {
         <h2>{this.props.cohortShowData.cohort.name}</h2>
         <StudentListContainer
           students={this.props.cohortShowData.students}
+          cohortId={this.props.params.id}
         />
         <NewStudentFormContainer
           cohortId={this.props.params.id}

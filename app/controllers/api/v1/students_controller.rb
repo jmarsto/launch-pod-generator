@@ -12,6 +12,16 @@ class Api::V1::StudentsController < ApplicationController
     end
   end
 
+  def destroy
+    student_to_be_removed = Student.find(params[:id])
+    removeId = student_to_be_removed.id
+    if student_to_be_removed.delete
+      render json: removeId
+    else
+      render json: { errors: student_to_be_removed.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
   def student_params
     params.require(:student).permit(:name)

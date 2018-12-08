@@ -36,9 +36,18 @@ const cohorts = (state = initialState, action) => {
       }
     case POST_STUDENT_REQUEST_SUCCESS:
       const newStudents = state.cohortShowData.students.concat(action.student)
-      const newCohortShowData = {...state.cohortShowData, students: newStudents}
+      const newCohortShowData = {...state.cohortShowData, students: newStudents }
       return {...state,
         cohortShowData: newCohortShowData,
+        isFetching: false
+      }
+    case DELETE_STUDENT_REQUEST_SUCCESS:
+      const studentsAfterDelete = state.cohortShowData.students.filter(function(student) {
+        return student.id !== parseInt(action.studentId)
+      })
+      const cohortDataAfterDelete = {...state.cohortShowData, students: studentsAfterDelete }
+      return {...state,
+        cohortShowData: cohortDataAfterDelete,
         isFetching: false
       }
     default:
@@ -115,6 +124,15 @@ const postStudentRequestSuccess = student => {
   return {
     type: POST_STUDENT_REQUEST_SUCCESS,
     student
+  }
+}
+
+const DELETE_STUDENT_REQUEST_SUCCESS = 'DELETE_STUDENT_REQUEST_SUCCESS'
+
+const deleteStudentRequestSuccess = (studentId) => {
+  return {
+    type: DELETE_STUDENT_REQUEST_SUCCESS,
+    studentId
   }
 }
 
@@ -217,12 +235,41 @@ const postStudent = studentData => {
   }
 }
 
+const deleteStudent = (cohortId, studentId) => {
+  return dispatch => {
+    dispatch(request())
+    return fetch(`/api/v1/cohorts/${cohortId}/students/${studentId}.json`,
+      {
+        method: 'DELETE',
+        body: JSON.stringify(studentId),
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      }
+    )
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        dispatch(requestFailure())
+        console.log("Error in fetch");
+        return { error: 'Something went wrong.' }
+      }
+    })
+    .then(studentId => {
+      if(!studentId.error) {
+        dispatch(deleteStudentRequestSuccess(studentId))
+      }
+    })
+  }
+}
+
 export {
   cohorts,
   cohortShowData,
   getCohorts,
   postCohort,
   postStudent,
+  deleteStudent,
   getCohortShowData,
   clearForm,
   handleInputChange
