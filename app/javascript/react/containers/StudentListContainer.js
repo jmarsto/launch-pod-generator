@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
+import { deleteStudent } from '../modules/cohorts'
+
+
 class StudentListContainer extends Component {
   constructor(props) {
     super(props)
+
   }
 
   render() {
@@ -10,9 +16,13 @@ class StudentListContainer extends Component {
     if (this.props.students) {
 
       studentTiles = this.props.students.map(student => {
+        const deleteStudent = () => {
+          this.props.deleteStudent(this.props.cohortId, student.id)
+        }
         return (
           <div key={student.id}>
             {student.name}
+            <span className="remove" id={student.id} onClick={deleteStudent}>(Remove)</span>
           </div>
         )
       })
@@ -27,8 +37,15 @@ class StudentListContainer extends Component {
       </div>
     )
   }
-
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteStudent: (cohortId, studentId) => dispatch(deleteStudent(cohortId, studentId))
+  }
+}
 
-export default StudentListContainer
+export default connect(
+  null,
+  mapDispatchToProps
+)(StudentListContainer)

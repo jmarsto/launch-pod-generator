@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :cohorts, only: [:index, :show, :create] do
-        resources :students, only: [:create]
+        resources :students, only: [:create, :destroy]
       end
     end
   end

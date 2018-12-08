@@ -13,7 +13,7 @@ class NewStudentFormContainer extends Component {
 
   handleFormSubmit(event) {
     event.preventDefault();
-    const studentData = {
+    let studentData = {
       name: this.props.newStudent,
       cohortId: this.props.cohortId
     }
