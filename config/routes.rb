@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   get '/cohorts', to: "homes#index"
   get '/cohorts/:id', to: 'homes#index'
-
+  get '/', to: "homes#index"
 
   namespace :api do
     namespace :v1 do

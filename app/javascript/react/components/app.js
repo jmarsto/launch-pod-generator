@@ -9,6 +9,7 @@ export const App = (props) => {
   return (
     <Provider store={props.store}>
       <Router history={browserHistory}>
+        <Route path='/' component={CohortsIndexContainer} />
         <Route path='/cohorts' component={CohortsIndexContainer} />
         <Route path='/cohorts/:id' component={CohortShowContainer} />
       </Router>
