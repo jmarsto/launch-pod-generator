@@ -19,13 +19,8 @@ class CohortShowContainer extends Component {
     return (
       <div className="row">
         <h2>{this.props.cohortShowData.cohort.name}</h2>
-        <StudentListContainer
-          students={this.props.cohortShowData.students}
-          cohortId={this.props.params.id}
-        />
-        <NewStudentFormContainer
-          cohortId={this.props.params.id}
-        />
+        <StudentListContainer />
+        <NewStudentFormContainer />
         <Link to='/cohorts'>Back to All Cohorts</Link>
       </div>
     )

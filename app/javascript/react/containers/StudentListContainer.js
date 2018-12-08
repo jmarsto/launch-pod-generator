@@ -39,6 +39,13 @@ class StudentListContainer extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    students: state.cohorts.cohortShowData.students,
+    cohortId: state.cohorts.cohortShowData.cohort.id
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteStudent: (cohortId, studentId) => dispatch(deleteStudent(cohortId, studentId))
@@ -46,6 +53,6 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(StudentListContainer)

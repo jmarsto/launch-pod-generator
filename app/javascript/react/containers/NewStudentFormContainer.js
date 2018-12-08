@@ -44,7 +44,8 @@ class NewStudentFormContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    newStudent: state.cohorts.newStudent
+    newStudent: state.cohorts.newStudent,
+    cohortId: state.cohorts.cohortShowData.cohort.id
   }
 }
 
