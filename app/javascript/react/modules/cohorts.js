@@ -4,7 +4,6 @@ const initialState = {
   cohortShowData: {
     cohort: {
       name: "",
-      groups: []
     }
   }
 };
@@ -52,7 +51,10 @@ const cohorts = (state = initialState, action) => {
         isFetching: false
       }
     case GENERATE_GROUPS_REQUEST_SUCCESS:
+
+    const cohortShowDataWithGroups = {...state.cohortShowData, groups: action.groups }
       return {...state,
+        cohortShowData: cohortShowDataWithGroups,
         isFetching: false
       }
     default:
@@ -143,10 +145,10 @@ const deleteStudentRequestSuccess = (studentId) => {
 
 const GENERATE_GROUPS_REQUEST_SUCCESS = 'GENERATE_GROUPS_REQUEST_SUCCESS'
 
-const generateGroupsRequestSuccess = (cohortId) => {
+const generateGroupsRequestSuccess = (groups) => {
   return {
     type: GENERATE_GROUPS_REQUEST_SUCCESS,
-    cohortId
+    groups
   }
 }
 
@@ -299,8 +301,7 @@ const requestGroupsForCohort = (cohortId) => {
     })
     .then(groups => {
       if(!groups.error) {
-        debugger
-        dispatch(generateGroupsRequestSuccess(cohortId))
+        dispatch(generateGroupsRequestSuccess(groups))
       }
     })
   }

@@ -3,8 +3,7 @@ class Api::V1::GroupsController < ApplicationController
 
   def create
     cohort = Cohort.find(params[:cohort_id])
-    group = Group.new(name: "ONE", cohort: cohort)
-    binding.pry
-    render json: group
+    GroupGenerator.new(cohort).groups
+    render json: cohort.groups
   end
 end

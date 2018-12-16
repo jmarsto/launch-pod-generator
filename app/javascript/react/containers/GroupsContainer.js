@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+
+import Group from '../components/Group'
 import { requestGroupsForCohort } from '../modules/cohorts';
 
 class GroupsContainer extends Component {
@@ -15,11 +17,24 @@ class GroupsContainer extends Component {
   }
 
   render() {
+    let groups;
+    if (this.props.groups) {
+      groups = this.props.groups.map(group => {
+        return (
+          <Group
+            key={group.id}
+            id={group.id}
+            name={group.name}
+          />
+        )
+      })
+    }
 
     return (
       <div className="row">
         <h3 className="small-12 columns groups-header">Groups Container</h3>
         <button onClick={this.generateGroups} className="small-12 columns">Generate Groups!</button>
+        {groups}
       </div>
     )
   }
@@ -27,7 +42,8 @@ class GroupsContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    cohortId: state.cohorts.cohortShowData.cohort.id
+    cohortId: state.cohorts.cohortShowData.cohort.id,
+    groups: state.cohorts.cohortShowData.groups
   }
 }
 

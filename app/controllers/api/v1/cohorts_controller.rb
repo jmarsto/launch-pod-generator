@@ -9,7 +9,8 @@ class Api::V1::CohortsController < ApplicationController
     cohort = Cohort.find(params[:id])
     cohort_show_data = {
       cohort: cohort,
-      students: cohort.students
+      students: cohort.students,
+      groups: cohort.groups
     }
     render json: cohort_show_data
   end
