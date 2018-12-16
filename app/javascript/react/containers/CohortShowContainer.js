@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getCohortShowData } from '../modules/cohorts';
 import StudentListContainer from './StudentListContainer'
 import NewStudentFormContainer from './NewStudentFormContainer'
+import GroupsContainer from './GroupsContainer'
 
 class CohortShowContainer extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class CohortShowContainer extends Component {
         <StudentListContainer />
         <NewStudentFormContainer />
         <Link to='/cohorts'>Back to All Cohorts</Link>
+        <GroupsContainer />
       </div>
     )
   }
