@@ -11,7 +11,7 @@ class GroupsContainer extends Component {
   }
 
   generateGroups = () => {
-    requestGroupsForCohort(this.props.cohortId)
+    this.props.requestGroupsForCohort(this.props.cohortId)
   }
 
   render() {

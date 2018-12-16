@@ -278,9 +278,7 @@ const deleteStudent = (cohortId, studentId) => {
 }
 
 const requestGroupsForCohort = (cohortId) => {
-  debugger
   return dispatch => {
-    debugger
     dispatch(request())
     return fetch(`/api/v1/cohorts/${cohortId}/groups.json`,
       {
@@ -301,6 +299,7 @@ const requestGroupsForCohort = (cohortId) => {
     })
     .then(groups => {
       if(!groups.error) {
+        debugger
         dispatch(generateGroupsRequestSuccess(cohortId))
       }
     })
