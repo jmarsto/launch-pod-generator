@@ -3,7 +3,8 @@ const initialState = {
   isFetching: false,
   cohortShowData: {
     cohort: {
-      name: ""
+      name: "",
+      groups: []
     }
   }
 };
@@ -48,6 +49,10 @@ const cohorts = (state = initialState, action) => {
       const cohortDataAfterDelete = {...state.cohortShowData, students: studentsAfterDelete }
       return {...state,
         cohortShowData: cohortDataAfterDelete,
+        isFetching: false
+      }
+    case GENERATE_GROUPS_REQUEST_SUCCESS:
+      return {...state,
         isFetching: false
       }
     default:
@@ -133,6 +138,15 @@ const deleteStudentRequestSuccess = (studentId) => {
   return {
     type: DELETE_STUDENT_REQUEST_SUCCESS,
     studentId
+  }
+}
+
+const GENERATE_GROUPS_REQUEST_SUCCESS = 'GENERATE_GROUPS_REQUEST_SUCCESS'
+
+const generateGroupsRequestSuccess = (cohortId) => {
+  return {
+    type: GENERATE_GROUPS_REQUEST_SUCCESS,
+    cohortId
   }
 }
 
@@ -263,6 +277,36 @@ const deleteStudent = (cohortId, studentId) => {
   }
 }
 
+const requestGroupsForCohort = (cohortId) => {
+  debugger
+  return dispatch => {
+    debugger
+    dispatch(request())
+    return fetch(`/api/v1/cohorts/${cohortId}/groups.json`,
+      {
+        method: 'POST',
+        body: JSON.stringify(cohortId),
+        credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+      }
+    )
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        dispatch(requestFailure())
+        console.log("Error in fetch");
+        return { error: 'Something went wrong.' }
+      }
+    })
+    .then(groups => {
+      if(!groups.error) {
+        dispatch(generateGroupsRequestSuccess(cohortId))
+      }
+    })
+  }
+}
+
 export {
   cohorts,
   cohortShowData,
@@ -271,6 +315,7 @@ export {
   postStudent,
   deleteStudent,
   getCohortShowData,
+  requestGroupsForCohort,
   clearForm,
   handleInputChange
 };
