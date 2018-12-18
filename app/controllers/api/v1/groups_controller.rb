@@ -4,6 +4,6 @@ class Api::V1::GroupsController < ApplicationController
   def create
     cohort = Cohort.find(params[:cohort_id])
     GroupGenerator.new(cohort).groups
-    render json: ActiveModel::Serializer::CollectionSerializer.new(cohort.groups, each_serializer: GroupSerializer)
+    render json: ActiveModel::Serializer::CollectionSerializer.new(cohort.weeks, each_serializer: WeekSerializer)
   end
 end

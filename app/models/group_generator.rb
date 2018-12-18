@@ -7,11 +7,14 @@ class GroupGenerator
     delete_previous_groups
     create_six_new_weeks
     create_groups
+    binding.pry
   end
 
   private
     def delete_previous_groups
-      @cohort.weeks.delete_all
+      @cohort.weeks.each do |week|
+        week.delete
+      end
     end
 
     def create_six_new_weeks
