@@ -4,17 +4,30 @@ class GroupGenerator
   end
 
   def groups
-    @cohort.groups.each do |group|
-      group.delete
-    end
-    
-    Group.create(cohort: @cohort, name: "GROUP 1")
-    Group.create(cohort: @cohort, name: "GROUP 2")
-    Group.create(cohort: @cohort, name: "GROUP 3")
-    Group.create(cohort: @cohort, name: "GROUP 4")
-    Group.create(cohort: @cohort, name: "GROUP 5")
-    Group.create(cohort: @cohort, name: "GROUP 6")
-
-    @cohort.groups
+    delete_previous_groups
+    create_six_new_groups
+    put_all_students_in_each_group
   end
+
+  private
+    def delete_previous_groups
+      @cohort.groups.each do |group|
+        group.delete
+      end
+    end
+
+    def create_six_new_groups
+      Group.create(cohort: @cohort, name: "GROUP 1")
+      Group.create(cohort: @cohort, name: "GROUP 2")
+      Group.create(cohort: @cohort, name: "GROUP 3")
+      Group.create(cohort: @cohort, name: "GROUP 4")
+      Group.create(cohort: @cohort, name: "GROUP 5")
+      Group.create(cohort: @cohort, name: "GROUP 6")
+    end
+
+    def put_all_students_in_each_group
+      @cohort.groups.each do |group|
+        group.students << @cohort.students
+      end
+    end
 end

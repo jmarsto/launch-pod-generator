@@ -51,8 +51,7 @@ const cohorts = (state = initialState, action) => {
         isFetching: false
       }
     case GENERATE_GROUPS_REQUEST_SUCCESS:
-
-    const cohortShowDataWithGroups = {...state.cohortShowData, groups: action.groups }
+      const cohortShowDataWithGroups = {...state.cohortShowData, groups: action.groups }
       return {...state,
         cohortShowData: cohortShowDataWithGroups,
         isFetching: false
