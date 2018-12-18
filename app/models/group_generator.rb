@@ -27,7 +27,12 @@ class GroupGenerator
 
     def put_all_students_in_each_group
       @cohort.groups.each do |group|
-        group.students << @cohort.students
+        @cohort.students.each do |student|
+          Grouping.create(group: group, student: student)
+        end
       end
     end
 end
+
+# i think for roadmapping, if it's not divisible by 4, we should include groups of 3. for group projects, if it's not divisible by 4, we should have groups of 5 included
+# as many as needed in each case
