@@ -1,4 +1,5 @@
 import React from 'react';
+import Student from './Student'
 
 
 const Group = props => {
@@ -6,7 +7,10 @@ const Group = props => {
   if (props.students) {
     students = props.students.map(student => {
       return(
-        <li>{student.name}</li>
+        <Student
+          key={student.id}
+          name={student.name}
+        />
       )
     })
   }
