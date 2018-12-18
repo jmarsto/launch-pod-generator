@@ -5,8 +5,9 @@ class GroupGenerator
 
   def groups
     delete_previous_groups
-    create_six_new_groups
-    put_all_students_in_each_group
+    create_six_new_weeks
+    create_groups
+    put_five_students_in_each_group
   end
 
   private
@@ -14,22 +15,39 @@ class GroupGenerator
       @cohort.groups.each do |group|
         group.delete
       end
+      @cohort.weeks.each do |week|
+        week.delete
+      end
     end
 
-    def create_six_new_groups
-      Group.create(cohort: @cohort, name: "GROUP 1")
-      Group.create(cohort: @cohort, name: "GROUP 2")
-      Group.create(cohort: @cohort, name: "GROUP 3")
-      Group.create(cohort: @cohort, name: "GROUP 4")
-      Group.create(cohort: @cohort, name: "GROUP 5")
-      Group.create(cohort: @cohort, name: "GROUP 6")
+    def create_six_new_weeks
+      Week.create(cohort: @cohort, name: "1")
+      Week.create(cohort: @cohort, name: "2")
+      Week.create(cohort: @cohort, name: "3")
+      Week.create(cohort: @cohort, name: "4")
+      Week.create(cohort: @cohort, name: "5")
+      Week.create(cohort: @cohort, name: "6")
     end
 
-    def put_all_students_in_each_group
+    def create_groups
+      @cohort.weeks.each do |week|
+        Group.create(name: "Alpha", week: week)
+        Group.create(name: "Beta", week: week)
+        Group.create(name: "Gamma", week: week)
+        Group.create(name: "Kappa", week: week)
+        Group.create(name: "Epsilon", week: week)
+      end
+    end
+
+    def put_five_students_in_each_group
       @cohort.groups.each do |group|
-        @cohort.students.each do |student|
-          Grouping.create(group: group, student: student)
-        end
+        Grouping.create([
+          {group: group, student: @cohort.students.first},
+          {group: group, student: @cohort.students.second},
+          {group: group, student: @cohort.students.third},
+          {group: group, student: @cohort.students.fourth},
+          {group: group, student: @cohort.students.fifth}
+          ])
       end
     end
 end
