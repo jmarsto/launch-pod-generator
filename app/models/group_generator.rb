@@ -7,17 +7,11 @@ class GroupGenerator
     delete_previous_groups
     create_six_new_weeks
     create_groups
-    put_five_students_in_each_group
   end
 
   private
     def delete_previous_groups
-      @cohort.groups.each do |group|
-        group.delete
-      end
-      @cohort.weeks.each do |week|
-        week.delete
-      end
+      @cohort.weeks.delete_all
     end
 
     def create_six_new_weeks
@@ -36,18 +30,16 @@ class GroupGenerator
         Group.create(name: "Gamma", week: week)
         Group.create(name: "Kappa", week: week)
         Group.create(name: "Epsilon", week: week)
-      end
-    end
 
-    def put_five_students_in_each_group
-      @cohort.groups.each do |group|
-        Grouping.create([
-          {group: group, student: @cohort.students.first},
-          {group: group, student: @cohort.students.second},
-          {group: group, student: @cohort.students.third},
-          {group: group, student: @cohort.students.fourth},
-          {group: group, student: @cohort.students.fifth}
-          ])
+        week.groups.each do |group|
+          Grouping.create([
+            {group: group, student: @cohort.students.first},
+            {group: group, student: @cohort.students.second},
+            {group: group, student: @cohort.students.third},
+            {group: group, student: @cohort.students.fourth},
+            {group: group, student: @cohort.students.fifth}
+            ])
+        end
       end
     end
 end
