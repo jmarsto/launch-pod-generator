@@ -13,8 +13,9 @@ class StudentListContainer extends Component {
 
   render() {
     let studentTiles
+    let numberOfStudents
     if (this.props.students) {
-
+      numberOfStudents = this.props.students.length
       studentTiles = this.props.students.map(student => {
         const deleteStudent = () => {
           this.props.deleteStudent(this.props.cohortId, student.id)
@@ -30,7 +31,7 @@ class StudentListContainer extends Component {
 
     return (
       <div className="small-8 columns">
-        <h3>Students</h3>
+        <h3>Students ({numberOfStudents})</h3>
         <ul>
           {studentTiles}
         </ul>

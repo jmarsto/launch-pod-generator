@@ -25,6 +25,7 @@ class GroupsContainer extends Component {
             key={group.id}
             id={group.id}
             name={group.name}
+            students={group.students}
           />
         )
       })
