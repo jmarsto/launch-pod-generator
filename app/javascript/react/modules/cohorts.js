@@ -51,8 +51,8 @@ const cohorts = (state = initialState, action) => {
         isFetching: false
       }
     case GENERATE_GROUPS_REQUEST_SUCCESS:
-
       const cohortShowDataWithGroups = {...state.cohortShowData, weeks: action.weeks }
+      debugger
       return {...state,
         cohortShowData: cohortShowDataWithGroups,
         isFetching: false

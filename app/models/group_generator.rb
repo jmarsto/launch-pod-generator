@@ -7,7 +7,6 @@ class GroupGenerator
     delete_previous_groups
     create_six_new_weeks
     create_groups
-    binding.pry
   end
 
   private
