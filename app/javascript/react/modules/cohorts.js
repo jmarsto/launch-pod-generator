@@ -51,7 +51,8 @@ const cohorts = (state = initialState, action) => {
         isFetching: false
       }
     case GENERATE_GROUPS_REQUEST_SUCCESS:
-      const cohortShowDataWithGroups = {...state.cohortShowData, groups: action.groups }
+      const cohortShowDataWithGroups = {...state.cohortShowData, weeks: action.weeks }
+      debugger
       return {...state,
         cohortShowData: cohortShowDataWithGroups,
         isFetching: false
@@ -144,10 +145,10 @@ const deleteStudentRequestSuccess = (studentId) => {
 
 const GENERATE_GROUPS_REQUEST_SUCCESS = 'GENERATE_GROUPS_REQUEST_SUCCESS'
 
-const generateGroupsRequestSuccess = (groups) => {
+const generateGroupsRequestSuccess = (weeks) => {
   return {
     type: GENERATE_GROUPS_REQUEST_SUCCESS,
-    groups
+    weeks
   }
 }
 
@@ -298,9 +299,9 @@ const requestGroupsForCohort = (cohortId) => {
         return { error: 'Something went wrong.' }
       }
     })
-    .then(groups => {
-      if(!groups.error) {
-        dispatch(generateGroupsRequestSuccess(groups))
+    .then(weeks => {
+      if(!weeks.error) {
+        dispatch(generateGroupsRequestSuccess(weeks))
       }
     })
   }

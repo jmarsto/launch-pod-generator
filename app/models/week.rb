@@ -1,5 +1,6 @@
 class Week < ApplicationRecord
   validates :name, presence: true
 
-  has_many :groups
+  belongs_to :cohort
+  has_many :groups, dependent: :destroy
 end

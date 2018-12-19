@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_18_165306) do
+ActiveRecord::Schema.define(version: 2018_12_18_165148) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,11 +32,9 @@ ActiveRecord::Schema.define(version: 2018_12_18_165306) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
-    t.bigint "cohort_id"
+    t.bigint "week_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "week_id"
-    t.index ["cohort_id"], name: "index_groups_on_cohort_id"
     t.index ["week_id"], name: "index_groups_on_week_id"
   end
 
@@ -62,7 +60,8 @@ ActiveRecord::Schema.define(version: 2018_12_18_165306) do
 
   create_table "weeks", force: :cascade do |t|
     t.string "name", null: false
+    t.bigint "cohort_id"
+    t.index ["cohort_id"], name: "index_weeks_on_cohort_id"
   end
 
-  add_foreign_key "groups", "weeks"
 end

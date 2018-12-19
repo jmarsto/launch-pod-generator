@@ -10,7 +10,7 @@ class Api::V1::CohortsController < ApplicationController
     cohort_show_data = {
       cohort: cohort,
       students: cohort.students,
-      groups: ActiveModel::Serializer::CollectionSerializer.new(cohort.groups, each_serializer: GroupSerializer)
+      weeks: ActiveModel::Serializer::CollectionSerializer.new(cohort.weeks, each_serializer: WeekSerializer)
     }
     render json: cohort_show_data
   end

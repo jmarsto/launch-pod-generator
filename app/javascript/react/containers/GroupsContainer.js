@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import Group from '../components/Group'
+import Week from '../components/Week'
 import { requestGroupsForCohort } from '../modules/cohorts';
 
 class GroupsContainer extends Component {
@@ -17,15 +17,15 @@ class GroupsContainer extends Component {
   }
 
   render() {
-    let groups;
-    if (this.props.groups) {
-      groups = this.props.groups.map(group => {
+    let weeks;
+    if (this.props.weeks) {
+      weeks = this.props.weeks.map(week => {
         return (
-          <Group
-            key={group.id}
-            id={group.id}
-            name={group.name}
-            students={group.students}
+          <Week
+            key={week.id}
+            id={week.id}
+            name={week.name}
+            groups={week.groups}
           />
         )
       })
@@ -35,7 +35,9 @@ class GroupsContainer extends Component {
       <div className="row">
         <h3 className="small-12 columns groups-header">Groups Container</h3>
         <button onClick={this.generateGroups} className="small-12 columns">Generate Groups!</button>
-        {groups}
+        <div className="small-12 columns">
+          {weeks}
+        </div>
       </div>
     )
   }
@@ -44,7 +46,7 @@ class GroupsContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     cohortId: state.cohorts.cohortShowData.cohort.id,
-    groups: state.cohorts.cohortShowData.groups
+    weeks: state.cohorts.cohortShowData.weeks
   }
 }
 
