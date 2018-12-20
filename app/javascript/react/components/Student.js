@@ -3,7 +3,7 @@ import React from 'react';
 const Student = props => {
 
   return(
-    <li>{props.name}</li>
+    <li className="student-name">{props.name}</li>
   )
 }
 

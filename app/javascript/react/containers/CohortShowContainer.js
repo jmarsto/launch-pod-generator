@@ -19,7 +19,7 @@ class CohortShowContainer extends Component {
   render() {
     return (
       <div className="row">
-        <h2>{this.props.cohortShowData.cohort.name}</h2>
+        <h2>{this.props.cohortShowData.name}</h2>
         <StudentListContainer />
         <NewStudentFormContainer />
         <Link to='/cohorts'>Back to All Cohorts</Link>
