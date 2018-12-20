@@ -2,10 +2,11 @@ const initialState = {
   cohorts: [],
   isFetching: false,
   cohortShowData: {
-    cohort: {
-      name: "",
+    id: null,
+    name: "",
+    students: [],
+    weeks: []
     }
-  }
 };
 
 const cohorts = (state = initialState, action) => {
@@ -52,7 +53,6 @@ const cohorts = (state = initialState, action) => {
       }
     case GENERATE_GROUPS_REQUEST_SUCCESS:
       const cohortShowDataWithGroups = {...state.cohortShowData, weeks: action.weeks }
-      debugger
       return {...state,
         cohortShowData: cohortShowDataWithGroups,
         isFetching: false

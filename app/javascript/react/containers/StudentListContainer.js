@@ -43,7 +43,7 @@ class StudentListContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     students: state.cohorts.cohortShowData.students,
-    cohortId: state.cohorts.cohortShowData.cohort.id
+    cohortId: state.cohorts.cohortShowData.id
   }
 }
 

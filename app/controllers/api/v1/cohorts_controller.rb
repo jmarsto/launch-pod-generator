@@ -7,12 +7,7 @@ class Api::V1::CohortsController < ApplicationController
 
   def show
     cohort = Cohort.find(params[:id])
-    cohort_show_data = {
-      cohort: cohort,
-      students: cohort.students,
-      weeks: ActiveModel::Serializer::CollectionSerializer.new(cohort.weeks, each_serializer: WeekSerializer)
-    }
-    render json: cohort_show_data
+    render json: cohort, include: '**'
   end
 
   def create

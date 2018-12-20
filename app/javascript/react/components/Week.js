@@ -17,9 +17,9 @@ const Week = props => {
   }
 
   return(
-    <div className="row">
-      <p>
-        {props.name}
+    <div className="row week">
+      <p className="week-name">
+        Road Mapping Week {props.name}
       </p>
       <div className="row">
         {groups}

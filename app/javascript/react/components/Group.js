@@ -16,11 +16,11 @@ const Group = props => {
   }
 
   return(
-    <div className="small-4 columns">
-      <p>
+    <div className="small-4 columns group">
+      <p className="group-name">
         {props.name}
       </p>
-      <ul>
+      <ul className="group-list">
         {students}
       </ul>
     </div>

@@ -45,7 +45,7 @@ class GroupsContainer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    cohortId: state.cohorts.cohortShowData.cohort.id,
+    cohortId: state.cohorts.cohortShowData.id,
     weeks: state.cohorts.cohortShowData.weeks
   }
 }
