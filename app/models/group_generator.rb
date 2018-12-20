@@ -21,6 +21,11 @@ class GroupGenerator
       @cohort.weeks.each do |week|
         week.delete
       end
+      # if we DONT call this function, it behaves as expected. groups stay when we navigate to the
+      # show page, but we end up generating another six when we click generate groups. not ideal.
+      # tried removing the dependent: :destroy and deleting in other ways, still odd behavior
+
+      # is there a special way we have to clean cohort.weeks?
     end
 
     def create_six_new_weeks
