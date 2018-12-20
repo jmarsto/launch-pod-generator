@@ -11,6 +11,13 @@ class GroupGenerator
 
   private
     def delete_previous_groups
+      # something weird is happening with this function
+      # it works to delete the previous weeks, and when we use the generator,
+      # we are able to call cohort.weeks in the groups_controller line 7,
+      # but somehow AFTER that, they disappear, and six new weeks are made without groups?
+
+      #compare ID of weeks in cohortShowData with the ID of weeks in GroupsContainer props,
+      # but BOTH are simply calling on cohort.weeks?
       @cohort.weeks.each do |week|
         week.delete
       end
