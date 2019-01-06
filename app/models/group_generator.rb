@@ -3,10 +3,11 @@ class GroupGenerator
     @cohort = cohort
   end
 
-  def groups
+  def cohort_with_refreshed_groups
     delete_previous_groups
     create_six_new_weeks
     create_groups
+    @cohort.reload
   end
 
   private
@@ -29,15 +30,13 @@ class GroupGenerator
     end
 
     def create_six_new_weeks
-      Week.create(cohort: @cohort, name: "1")
-      Week.create(cohort: @cohort, name: "2")
-      Week.create(cohort: @cohort, name: "3")
-      Week.create(cohort: @cohort, name: "4")
-      Week.create(cohort: @cohort, name: "5")
-      Week.create(cohort: @cohort, name: "6")
+      6.times do |i|
+        Week.create(cohort: @cohort, name: "#{i+1}")
+      end
     end
 
     def create_groups
+      @cohort.reload
       @cohort.weeks.each do |week|
         Group.create(name: "Alpha", week: week)
         Group.create(name: "Beta", week: week)
