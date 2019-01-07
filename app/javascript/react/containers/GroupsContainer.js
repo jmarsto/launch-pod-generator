@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import Week from '../components/Week'
+import WeekContainer from './WeekContainer'
 import { requestGroupsForCohort } from '../modules/cohorts';
 
 class GroupsContainer extends Component {
@@ -21,7 +21,7 @@ class GroupsContainer extends Component {
     if (this.props.weeks) {
       weeks = this.props.weeks.map(week => {
         return (
-          <Week
+          <WeekContainer
             key={week.id}
             id={week.id}
             name={week.name}

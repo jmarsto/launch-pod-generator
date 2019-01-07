@@ -57,6 +57,15 @@ const cohorts = (state = initialState, action) => {
         cohortShowData: cohortShowDataWithGroups,
         isFetching: false
       }
+    case PATCH_WEEK_REQUEST_SUCCESS:
+      const weeks = Array.from(state.cohortShowData.weeks)
+      const patchedWeekIndex = weeks.findIndex(week => week.id === action.week.id)
+      weeks.splice(patchedWeekIndex, 1, action.week)
+      const cohortShowDataWithUpdatedWeeks = {...state.cohortShowData, weeks: weeks }
+      return {...state.cohort,
+        cohortShowData: cohortShowDataWithUpdatedWeeks,
+        isFetching: false
+      }
     default:
       return state;
   }
@@ -152,6 +161,15 @@ const generateGroupsRequestSuccess = (weeks) => {
   }
 }
 
+const PATCH_WEEK_REQUEST_SUCCESS = 'PATCH_WEEK_REQUEST_SUCCESS'
+
+const patchWeekRequestSuccess = week => {
+  return {
+    type: PATCH_WEEK_REQUEST_SUCCESS,
+    week
+  }
+}
+
 const getCohorts = () => {
   return dispatch => {
     dispatch(request())
@@ -197,6 +215,35 @@ const postCohort = cohort => {
     .then(cohort => {
       if(!cohort.error) {
         dispatch(postCohortRequestSuccess(cohort))
+      }
+    })
+  }
+}
+
+const patchWeek = payload => {
+  return dispatch => {
+    dispatch(request())
+    return fetch(`/api/v1/weeks/${payload.weekId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin'
+    })
+    .then(response => {
+      if(response.ok) {
+        return response.json()
+      } else {
+        dispatch(requestFailure())
+        console.log("Error in fetch");
+        return { error: 'Something went wrong.' }
+      }
+    })
+    .then(week => {
+      if(!week.error) {
+        dispatch(patchWeekRequestSuccess(week))
       }
     })
   }
@@ -311,6 +358,7 @@ export {
   cohorts,
   cohortShowData,
   getCohorts,
+  patchWeek,
   postCohort,
   postStudent,
   deleteStudent,

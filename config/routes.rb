@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resources :students, only: [:create, :destroy]
         resources :groups, only: [:create]
       end
+      resources :weeks, only: :update
     end
   end
 end
