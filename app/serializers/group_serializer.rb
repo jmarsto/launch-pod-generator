@@ -1,7 +1,7 @@
 class GroupSerializer < ActiveModel::Serializer
-  attributes :id, :name, :students
+  attributes :id, :name, :groupings
 
-  def students
-    object.students
+  def groupings
+    object.groupings
   end
 end
