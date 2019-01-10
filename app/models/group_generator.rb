@@ -1,61 +1,70 @@
 class GroupGenerator
   def initialize(cohort)
     @cohort = cohort
+    @number_of_groups = (cohort.students.length/4.to_f).ceil
   end
 
   def cohort_with_refreshed_groups
     delete_previous_groups
+    delete_previous_groupings
     create_six_new_weeks
+    name_groups
     create_groups
     @cohort.reload
   end
 
   private
-    def delete_previous_groups
-      # something weird is happening with this function
-      # it works to delete the previous weeks, and when we use the generator,
-      # we are able to call cohort.weeks in the groups_controller line 7,
-      # but somehow AFTER that, they disappear, and six new weeks are made without groups?
-
-      #compare ID of weeks in cohortShowData with the ID of weeks in GroupsContainer props,
-      # but BOTH are simply calling on cohort.weeks?
-      @cohort.weeks.each do |week|
-        week.delete
-      end
-      # if we DONT call this function, it behaves as expected. groups stay when we navigate to the
-      # show page, but we end up generating another six when we click generate groups. not ideal.
-      # tried removing the dependent: :destroy and deleting in other ways, still odd behavior
-
-      # is there a special way we have to clean cohort.weeks?
+  def delete_previous_groups
+    @cohort.weeks.each do |week|
+      week.delete
     end
+  end
 
-    def create_six_new_weeks
-      6.times do |i|
-        Week.create(cohort: @cohort, name: "#{i+1}")
+  def delete_previous_groupings
+    @cohort.students.each do |student|
+      student.delete_previous_groupings
+    end
+  end
+
+  def create_six_new_weeks
+    6.times do |i|
+      Week.create(cohort: @cohort, name: "#{i+1}")
+    end
+  end
+
+  def name_groups
+    @cohort.reload
+
+    @cohort.weeks.each do |week|
+      @number_of_groups.times do |i|
+        Group.create(name: "#{i+1}", week: week)
       end
     end
+  end
 
-    def create_groups
-      @cohort.reload
-      @cohort.weeks.each do |week|
-        Group.create(name: "Alpha", week: week)
-        Group.create(name: "Beta", week: week)
-        Group.create(name: "Gamma", week: week)
-        Group.create(name: "Kappa", week: week)
-        Group.create(name: "Epsilon", week: week)
-
-        week.groups.each do |group|
-          Grouping.create([
-            {group: group, student: @cohort.students.first},
-            {group: group, student: @cohort.students.second},
-            {group: group, student: @cohort.students.third},
-            {group: group, student: @cohort.students.fourth},
-            {group: group, student: @cohort.students.fifth}
-            ])
+  def group_students(students, week, repeat_factor)
+    # need a way of stopping when minimum is met, and then filling in the rests
+    week.groups.each do |group|
+      students.each do |student|
+        group.reload
+        if group.acceptable_group?(student, repeat_factor)
+          Grouping.create(group: group, student: student)
+          students.delete(student)
         end
       end
     end
-end
+  end
 
-# i think for roadmapping, if it's not divisible by 4, we should include groups of 3. for group projects, if it's not divisible by 4, we should have groups of 5 included
-# as many as needed in each case
+  def create_groups
+    @cohort.reload
+    @cohort.weeks.each do |week|
+      ungrouped_students = @cohort.students.map { |student| student }
+      repeat_factor = 0
+      until ungrouped_students.empty?
+        group_students(ungrouped_students, week, repeat_factor)
+        repeat_factor += 1
+      end
+    end
+  end
+
+  end

@@ -14,15 +14,18 @@ class CohortListContainer extends Component {
   }
 
   render() {
-    const cohortTiles = this.props.cohorts.map(cohort => {
-      return (
-        <CohortTile
-          key={cohort.id}
-          id={cohort.id}
-          name={cohort.name}
-        />
-      )
-    })
+    let cohortTiles
+    if (this.props.cohorts) {
+      cohortTiles = this.props.cohorts.map(cohort => {
+        return (
+          <CohortTile
+            key={cohort.id}
+            id={cohort.id}
+            name={cohort.name}
+          />
+        )
+      })
+    }
 
     return (
       <div>

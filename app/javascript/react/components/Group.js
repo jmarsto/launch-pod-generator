@@ -7,6 +7,9 @@ const Group = props => {
   if (props.groupings) {
     students = props.groupings.map((grouping, index) => {
       const student = props.students.find(student => student.id === grouping.student_id)
+      if (!student) {
+        return
+      }
 
       return(
         <Student
