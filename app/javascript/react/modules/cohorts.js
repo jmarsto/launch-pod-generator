@@ -6,7 +6,7 @@ const initialState = {
     name: "",
     students: [],
     weeks: []
-    }
+  }
 };
 
 const cohorts = (state = initialState, action) => {
@@ -17,6 +17,8 @@ const cohorts = (state = initialState, action) => {
       return {...state, newCohort: '', newStudent: '' }
     case REQUEST:
       return {...state, isFetching: true }
+    case GENERATE_GROUPS_REQUEST:
+      return {...state, buttonText: action.text }
     case REQUEST_FAILURE:
       return {...state, isFetching: false }
     case GET_COHORTS_REQUEST_SUCCESS:
@@ -55,7 +57,7 @@ const cohorts = (state = initialState, action) => {
       const cohortShowDataWithGroups = {...state.cohortShowData, weeks: action.weeks }
       return {...state,
         cohortShowData: cohortShowDataWithGroups,
-        isFetching: false
+        buttonText: null
       }
     case PATCH_WEEK_REQUEST_SUCCESS:
       const weeks = Array.from(state.cohortShowData.weeks)
@@ -96,6 +98,15 @@ const REQUEST = 'REQUEST'
 const request = () => {
   return {
     type: REQUEST
+  }
+}
+
+const GENERATE_GROUPS_REQUEST = 'GENERATE_GROUPS_REQUEST'
+
+const generateGroupsRequest = () => {
+  return {
+    type: GENERATE_GROUPS_REQUEST,
+    text: "Generator takes about a minute."
   }
 }
 
@@ -328,7 +339,7 @@ const deleteStudent = (cohortId, studentId) => {
 
 const requestGroupsForCohort = (cohortId) => {
   return dispatch => {
-    dispatch(request())
+    dispatch(generateGroupsRequest())
     return fetch(`/api/v1/cohorts/${cohortId}/groups.json`,
       {
         method: 'POST',

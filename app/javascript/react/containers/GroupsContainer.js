@@ -17,6 +17,7 @@ class GroupsContainer extends Component {
   }
 
   render() {
+    let buttonText = "Generate Groups!"
     let weeks;
     if (this.props.weeks) {
       weeks = this.props.weeks.map(week => {
@@ -31,10 +32,13 @@ class GroupsContainer extends Component {
       })
     }
 
+    if (this.props.buttonText) {
+      buttonText = this.props.buttonText
+    }
+
     return (
       <div className="row">
-        <h3 className="small-12 columns groups-header">Groups Container</h3>
-        <button onClick={this.generateGroups} className="small-12 columns">Generate Groups!</button>
+        <button onClick={this.generateGroups} className="small-12 columns">{buttonText}</button>
         <div className="small-12 columns">
           {weeks}
         </div>
@@ -46,7 +50,8 @@ class GroupsContainer extends Component {
 const mapStateToProps = (state) => {
   return {
     cohortId: state.cohorts.cohortShowData.id,
-    weeks: state.cohorts.cohortShowData.weeks
+    weeks: state.cohorts.cohortShowData.weeks,
+    buttonText: state.cohorts.buttonText
   }
 }
 
