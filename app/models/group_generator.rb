@@ -37,7 +37,7 @@ class GroupGenerator
 
     @cohort.weeks.each do |week|
       @number_of_groups.times do |i|
-        Group.create(name: "#{i+1}", week: week)
+        Group.create(name: "#{@number_of_groups-i}", week: week)
       end
     end
   end
