@@ -43,13 +43,18 @@ class GroupGenerator
   end
 
   def group_students(students, week, repeat_factor)
-    # need a way of stopping when minimum is met, and then filling in the rests
     week.groups.each do |group|
       students.each do |student|
         group.reload
-        if group.acceptable_group?(student, repeat_factor)
+        if group.acceptable_group?(student, repeat_factor) && group.minimum_not_met?
           Grouping.create(group: group, student: student)
           students.delete(student)
+        end
+        if week.all_groups_have_minimum_students?
+          if group.acceptable_group?(student, repeat_factor)
+            Grouping.create(group: group, student: student)
+            students.delete(student)
+          end
         end
       end
     end
@@ -67,4 +72,4 @@ class GroupGenerator
     end
   end
 
-  end
+end
