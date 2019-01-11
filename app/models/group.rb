@@ -14,7 +14,11 @@ class Group < ApplicationRecord
         repeats += 1
       end
     end
-    repeat_factor >= repeats
+    repeat_factor >= repeats && self.students.count < 4
+  end
+
+  def minimum_not_met?
+    self.students.count < 3
   end
 
 end
